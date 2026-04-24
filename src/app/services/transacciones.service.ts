@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Transaccion, OrdsResponse } from '../models/finanzas.model';
+import { Transaccion, OrdsResponse, Categoria } from '../models/finanzas.model';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -15,6 +15,9 @@ export class TransaccionesService {
 
   private _transacciones = signal<Transaccion[]>([]);
   transacciones = computed(() => this._transacciones());
+
+  private _categorias = signal<Categoria[]>([]);
+  categorias = computed(() => this._categorias());
 
   saldoTotal = computed(() => {
     return this._transacciones().reduce((acc, t) => {
@@ -66,6 +69,19 @@ export class TransaccionesService {
     } catch (error) {
       this._transacciones.set([]);
       throw error;
+    }
+  }
+
+  async obtenerCategorias() {
+    try {
+      const url = `${this.baseUrl}/categorias`;
+      const response = await firstValueFrom(this.http.get<OrdsResponse<Categoria>>(url));
+      this._categorias.set(response.items || []);
+      return response.items;
+    } catch (error) {
+      console.error('Error al obtener categorías:', error);
+      this._categorias.set([]);
+      return [];
     }
   }
 

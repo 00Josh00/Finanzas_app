@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransaccionesService } from '../../services/transacciones.service';
@@ -54,7 +54,7 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
                     class="form-select form-select-lg border-0 bg-white shadow-none"
                   >
                     <option [value]="null" disabled selected>Selecciona...</option>
-                    @for (cat of categorias; track cat.id) {
+                    @for (cat of categorias(); track cat.id) {
                       <option [value]="cat.id">({{ cat.tipo }}) {{ cat.nombre }}</option>
                     }
                   </select>
@@ -97,7 +97,7 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
     .tracking-wider { letter-spacing: 0.05em; }
   `]
 })
-export class NuevaTransaccionComponent {
+export class NuevaTransaccionComponent implements OnInit {
   private fb = inject(FormBuilder);
   private transaccionesService = inject(TransaccionesService);
   private authService = inject(AuthService);
@@ -105,21 +105,17 @@ export class NuevaTransaccionComponent {
 
   loading = signal(false);
 
-  readonly categorias = [
-    { id: 1, nombre: 'Sueldo', tipo: 'INGRESO' },
-    { id: 2, nombre: 'Ventas', tipo: 'INGRESO' },
-    { id: 3, nombre: 'Alimentación', tipo: 'GASTO' },
-    { id: 4, nombre: 'Transporte', tipo: 'GASTO' },
-    { id: 5, nombre: 'Vivienda', tipo: 'GASTO' },
-    { id: 6, nombre: 'Entretenimiento', tipo: 'GASTO' },
-    { id: 7, nombre: 'Otros', tipo: 'GASTO' }
-  ];
+  categorias = this.transaccionesService.categorias;
 
   form = this.fb.group({
     monto: [null, [Validators.required, Validators.min(0.01)]],
     categoria_id: [null, Validators.required],
     descripcion: ['', Validators.required]
   });
+
+  ngOnInit() {
+    this.transaccionesService.obtenerCategorias();
+  }
 
   async onSubmit() {
     if (this.form.invalid) return;

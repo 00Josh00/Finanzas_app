@@ -178,7 +178,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
                 <div class="col-12">
                   <label class="form-label small fw-bold text-secondary">Categoría</label>
                   <select formControlName="categoria_id" class="form-select border-light bg-light">
-                    @for (cat of categorias; track cat.id) {
+                    @for (cat of transaccionesService.categorias(); track cat.id) {
                       <option [value]="cat.id">({{ cat.tipo }}) {{ cat.nombre }}</option>
                     }
                   </select>
@@ -222,15 +222,7 @@ export class DashboardComponent implements OnInit {
   loading = signal(false);
   selectedTransaction: Transaccion | null = null;
 
-  readonly categorias = [
-    { id: 1, nombre: 'Sueldo', tipo: 'INGRESO' },
-    { id: 2, nombre: 'Ventas', tipo: 'INGRESO' },
-    { id: 3, nombre: 'Alimentación', tipo: 'GASTO' },
-    { id: 4, nombre: 'Transporte', tipo: 'GASTO' },
-    { id: 5, nombre: 'Vivienda', tipo: 'GASTO' },
-    { id: 6, nombre: 'Entretenimiento', tipo: 'GASTO' },
-    { id: 7, nombre: 'Otros', tipo: 'GASTO' }
-  ];
+  // Removido categorias harcodeadas
 
   editForm = this.fb.group({
     monto: [0, [Validators.required, Validators.min(0.01)]],
@@ -249,9 +241,12 @@ export class DashboardComponent implements OnInit {
     const user = this.authService.user();
     if (user) {
       try {
-        await this.transaccionesService.obtenerMovimientos(user.uid);
+        await Promise.all([
+          this.transaccionesService.obtenerMovimientos(user.uid),
+          this.transaccionesService.obtenerCategorias()
+        ]);
       } catch (err) {
-        console.error('Error cargando movimientos');
+        console.error('Error cargando movimientos o categorías');
       }
     }
   }
@@ -302,10 +297,10 @@ export class DashboardComponent implements OnInit {
 
   onEdit(t: Transaccion) {
     this.selectedTransaction = t;
-    const cat = this.categorias.find(c => c.nombre === t.categoria_nombre);
+    const cat = this.transaccionesService.categorias().find(c => c.nombre === t.categoria_nombre);
     this.editForm.patchValue({
       monto: t.monto,
-      categoria_id: cat ? cat.id : 7,
+      categoria_id: cat ? cat.id : (this.transaccionesService.categorias()[0]?.id || 0),
       descripcion: t.descripcion
     });
   }
