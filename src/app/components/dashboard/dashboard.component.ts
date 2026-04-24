@@ -37,24 +37,24 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
         <div class="row g-3 g-lg-4 mb-4">
           <!-- Balance Summary Card -->
           <div class="col-12 col-md-5 col-lg-4">
-            <div class="card h-100 p-4 border-0 shadow-sm rounded-4 bg-dark text-white overflow-hidden position-relative">
+            <div class="card h-100 p-4 border-0 shadow-sm rounded-4 balance-card text-white overflow-hidden position-relative">
               <div class="position-absolute top-0 end-0 p-3 opacity-10">
                 <i class="bi bi-piggy-bank display-4"></i>
               </div>
               
               <div class="position-relative z-1">
-                <p class="text-white-50 small fw-semibold text-uppercase mb-1 tracking-wider">Saldo Disponible</p>
-                <h1 class="amount mb-4 display-5 fw-bold">
+                <p class="text-white opacity-75 small fw-semibold text-uppercase mb-1 tracking-wider">Saldo Disponible</p>
+                <h1 class="amount mb-4 display-5 fw-bold text-white">
                   S/ {{ transaccionesService.saldoTotal() | number:'1.2-2' }}
                 </h1>
                 
                 <div class="row g-2 pt-3 mt-auto">
                   <div class="col-6">
-                    <span class="text-white-50 d-block small mb-1">Ingresos</span>
+                    <span class="text-white opacity-75 d-block small mb-1">Ingresos</span>
                     <span class="fw-bold text-success amount fs-5">S/ {{ transaccionesService.totalIngresos() | number:'1.2-2' }}</span>
                   </div>
                   <div class="col-6 text-end border-start border-white border-opacity-10">
-                    <span class="text-white-50 d-block small mb-1">Gastos</span>
+                    <span class="text-white opacity-75 d-block small mb-1">Gastos</span>
                     <span class="fw-bold text-danger amount fs-5">S/ {{ transaccionesService.totalGastos() | number:'1.2-2' }}</span>
                   </div>
                 </div>
@@ -203,6 +203,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styles: [`
     :host { display: block; }
     .amount { font-variant-numeric: tabular-nums; }
+    .balance-card {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
+    }
+    .balance-card h1 { color: #ffffff !important; }
     .income-row { border-left: 5px solid var(--bs-success) !important; }
     .expense-row { border-left: 5px solid var(--bs-danger) !important; }
     .tracking-wider { letter-spacing: 0.05em; }
