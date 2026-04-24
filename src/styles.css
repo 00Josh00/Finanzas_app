@@ -1,0 +1,78 @@
+/* Importación de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* BRAND COLORS */
+  --bs-primary:       #0EA5E9;   /* Cyan */
+  --bs-success:       #10B981;   /* Green */
+  --bs-danger:        #F43F5E;   /* Red-rose */
+  --bs-warning:       #F59E0B;   /* Amber */
+  --bs-info:          #8B5CF6;   /* Violet */
+  --bs-dark:          #0F172A;   /* Deep navy */
+  --bs-body-bg:       #F8FAFC;   /* Ice white */
+  --bs-body-color:    #1E293B;   /* Slate */
+  --bs-secondary:     #64748B;   /* Muted slate */
+  
+  --border-color:     #E2E8F0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--bs-dark);
+}
+
+/* COMPONENT RULES */
+
+/* Cards */
+.card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+/* Amounts/numbers */
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Custom Rows */
+.income-row {
+  border-left: 4px solid var(--bs-success) !important;
+}
+.income-amount {
+  color: #047857;
+}
+
+.expense-row {
+  border-left: 4px solid var(--bs-danger) !important;
+}
+.expense-amount {
+  color: #9F1239;
+}
+
+/* Tables Customization */
+.table {
+  --bs-table-striped-bg: #F8FAFC;
+  --bs-table-hover-bg: #F1F5F9;
+}
+.table-hover tbody tr:hover {
+  background-color: var(--bs-table-hover-bg);
+}
+
+/* Navbar */
+.bg-dark {
+  background-color: var(--bs-dark) !important;
+}
+.navbar-dark .navbar-nav .nav-link {
+  color: #E2E8F0;
+}
