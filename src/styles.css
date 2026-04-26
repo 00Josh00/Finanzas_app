@@ -1,78 +1,113 @@
 /* Importación de Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* BRAND COLORS */
-  --bs-primary:       #0EA5E9;   /* Cyan */
-  --bs-success:       #10B981;   /* Green */
-  --bs-danger:        #F43F5E;   /* Red-rose */
-  --bs-warning:       #F59E0B;   /* Amber */
-  --bs-info:          #8B5CF6;   /* Violet */
-  --bs-dark:          #0F172A;   /* Deep navy */
-  --bs-body-bg:       #F8FAFC;   /* Ice white */
-  --bs-body-color:    #1E293B;   /* Slate */
-  --bs-secondary:     #64748B;   /* Muted slate */
+  /* PREMIUM COLOR PALETTE */
+  --primary:          #6366F1;   /* Indigo */
+  --primary-glow:     rgba(99, 102, 241, 0.15);
+  --success:          #10B981;   /* Emerald */
+  --danger:           #F43F5E;   /* Rose */
+  --warning:          #F59E0B;   /* Amber */
+  --info:             #3B82F6;   /* Blue */
   
-  --border-color:     #E2E8F0;
+  /* NEUTRALS */
+  --bg-main:          #FBFBFE;   /* Ultra light slate */
+  --bg-card:          #FFFFFF;
+  --text-main:        #1E293B;   /* Slate 800 */
+  --text-muted:       #64748B;   /* Slate 500 */
+  --border-subtle:    #F1F5F9;   /* Slate 100 */
+  --border-medium:    #E2E8F0;   /* Slate 200 */
+  
+  /* GLASSMORPHISM */
+  --glass-bg:         rgba(255, 255, 255, 0.7);
+  --glass-border:     rgba(255, 255, 255, 0.3);
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bs-body-bg);
-  color: var(--bs-body-color);
-  line-height: 1.6;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  color: var(--bs-dark);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #0F172A;
 }
 
-/* COMPONENT RULES */
+/* PREMIUM UTILITIES */
 
-/* Cards */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+}
+
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* COMPONENT OVERRIDES */
+
 .card {
-  background-color: #ffffff;
-  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn {
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
-}
-
-/* Amounts/numbers */
-.amount {
-  font-variant-numeric: tabular-nums;
+  padding: 0.6rem 1.2rem;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-/* Custom Rows */
-.income-row {
-  border-left: 4px solid var(--bs-success) !important;
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px 0 var(--primary-glow);
 }
-.income-amount {
-  color: #047857;
-}
-
-.expense-row {
-  border-left: 4px solid var(--bs-danger) !important;
-}
-.expense-amount {
-  color: #9F1239;
+.btn-primary:hover {
+  background: #4F46E5;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.23);
 }
 
-/* Tables Customization */
-.table {
-  --bs-table-striped-bg: #F8FAFC;
-  --bs-table-hover-bg: #F1F5F9;
+/* CUSTOM INPUTS */
+.form-control, .form-select {
+  border-radius: 12px;
+  border: 1px solid var(--border-medium);
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
 }
-.table-hover tbody tr:hover {
-  background-color: var(--bs-table-hover-bg);
+.form-control:focus {
+  background-color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
-/* Navbar */
-.bg-dark {
-  background-color: var(--bs-dark) !important;
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.navbar-dark .navbar-nav .nav-link {
-  color: #E2E8F0;
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
 }

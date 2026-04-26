@@ -13,49 +13,63 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, DatePipe, DecimalPipe, RouterLink, NavbarComponent, ReactiveFormsModule],
   template: `
-    <div class="min-vh-100 bg-light pb-5">
+    <div class="min-vh-100 bg-main pb-5 animate-fade-in">
       
       <app-navbar></app-navbar>
 
-      <main class="container py-4">
+      <main class="container-fluid px-md-5 py-4">
         
-        <!-- Welcome Header (Mobile focus) -->
-        <div class="d-flex justify-content-between align-items-center mb-4 d-md-none px-1">
+        <!-- Welcome Header (Mobile & Desktop) -->
+        <div class="d-flex justify-content-between align-items-end mb-5 px-1">
           <div>
+            <p class="text-primary fw-bold small text-uppercase tracking-widest mb-1">Resumen General</p>
             @if (authService.user(); as user) {
-              <h5 class="fw-bold m-0 text-dark">Hola, {{ user.email.split('@')[0] }}</h5>
+              <h2 class="fw-bold m-0 h1">Hola, {{ user.email.split('@')[0] }} 👋</h2>
             } @else {
-              <h5 class="fw-bold m-0 text-dark">Hola, Invitado</h5>
+              <h2 class="fw-bold m-0 h1">Hola, Invitado 👋</h2>
             }
-            <p class="text-secondary small m-0">¡Qué bueno verte!</p>
           </div>
-          <div class="bg-white rounded-circle p-2 shadow-sm">
-             <i class="bi bi-bell text-secondary"></i>
+          <div class="d-none d-md-flex gap-3">
+             <div class="glass-card rounded-3 p-2 px-3 d-flex align-items-center gap-2">
+                <i class="bi bi-calendar3 text-primary"></i>
+                <span class="small fw-bold text-muted">{{ today | date:'dd MMMM, yyyy' }}</span>
+             </div>
           </div>
         </div>
 
-        <div class="row g-3 g-lg-4 mb-4">
+        <div class="row g-4 mb-5">
           <!-- Balance Summary Card -->
-          <div class="col-12 col-md-5 col-lg-4">
-            <div class="card h-100 p-4 border-0 shadow-sm rounded-4 balance-card text-white overflow-hidden position-relative">
-              <div class="position-absolute top-0 end-0 p-3 opacity-10">
-                <i class="bi bi-piggy-bank display-4"></i>
-              </div>
+          <div class="col-12 col-lg-4">
+            <div class="card h-100 p-4 border-0 premium-shadow rounded-5 balance-card text-white overflow-hidden position-relative">
+              <div class="mesh-gradient"></div>
               
-              <div class="position-relative z-1">
-                <p class="text-white opacity-75 small fw-semibold text-uppercase mb-1 tracking-wider">Saldo Disponible</p>
-                <h1 class="amount mb-4 display-5 fw-bold text-white">
-                  S/ {{ transaccionesService.saldoTotal() | number:'1.2-2' }}
-                </h1>
-                
-                <div class="row g-2 pt-3 mt-auto">
-                  <div class="col-6">
-                    <span class="text-white opacity-75 d-block small mb-1">Ingresos</span>
-                    <span class="fw-bold text-success amount fs-5">S/ {{ transaccionesService.totalIngresos() | number:'1.2-2' }}</span>
+              <div class="position-relative z-1 d-flex flex-column h-100">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                  <div>
+                    <p class="text-white opacity-75 small fw-bold text-uppercase tracking-wider mb-0">Saldo Disponible</p>
+                    <h1 class="amount mb-0 display-4 fw-extrabold text-white">
+                      S/ {{ transaccionesService.saldoTotal() | number:'1.2-2' }}
+                    </h1>
                   </div>
-                  <div class="col-6 text-end border-start border-white border-opacity-10">
-                    <span class="text-white opacity-75 d-block small mb-1">Gastos</span>
-                    <span class="fw-bold text-danger amount fs-5">S/ {{ transaccionesService.totalGastos() | number:'1.2-2' }}</span>
+                  <div class="bg-white rounded-3 p-1 shadow-sm" style="width: 44px; height: 44px; overflow: hidden;">
+                    <img src="logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                  </div>
+                </div>
+                
+                <div class="mt-auto">
+                  <div class="row g-3">
+                    <div class="col-6">
+                      <div class="bg-white bg-opacity-10 rounded-4 p-3 border border-white border-opacity-10">
+                        <span class="text-white opacity-75 d-block small mb-1 fw-bold">Ingresos</span>
+                        <span class="fw-bold amount fs-5 text-white">S/ {{ transaccionesService.totalIngresos() | number:'1.2-2' }}</span>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="bg-white bg-opacity-10 rounded-4 p-3 border border-white border-opacity-10">
+                        <span class="text-white opacity-75 d-block small mb-1 fw-bold">Gastos</span>
+                        <span class="fw-bold amount fs-5 text-white">S/ {{ transaccionesService.totalGastos() | number:'1.2-2' }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -63,60 +77,95 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
           </div>
 
           <!-- Category Chart Card -->
-          <div class="col-12 col-md-7 col-lg-8">
-            <div class="card h-100 p-4 border-0 shadow-sm rounded-4 bg-white">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="m-0 fw-bold">Análisis de Gastos</h6>
-                <i class="bi bi-three-dots-vertical text-secondary"></i>
+          <div class="col-12 col-lg-8">
+            <div class="card h-100 p-4 border-0 premium-shadow rounded-5 bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                  <h5 class="m-0 fw-bold">Distribución de Gastos</h5>
+                  <p class="text-muted small m-0">Análisis por categorías este mes</p>
+                </div>
+                <button class="btn btn-light rounded-3 p-2 px-3 small fw-bold">Ver Detalles</button>
               </div>
-              <div style="height: 180px;" class="d-flex justify-content-center align-items-center">
-                <canvas #chartCanvas></canvas>
+              <div class="row align-items-center">
+                <div class="col-md-6">
+                  <div style="height: 220px;" class="d-flex justify-content-center align-items-center">
+                    <canvas #chartCanvas></canvas>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                  <div class="d-flex flex-column gap-2">
+                    @for (label of Object.keys(transaccionesService.gastosPorCategoria()); track label) {
+                      <div class="d-flex justify-content-between align-items-center p-2 rounded-3 hover-bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="rounded-circle" [style.background-color]="getCategoryColor($index)" style="width: 8px; height: 8px;"></div>
+                          <span class="small fw-semibold text-muted">{{ label }}</span>
+                        </div>
+                        <span class="small fw-bold">S/ {{ transaccionesService.gastosPorCategoria()[label] | number:'1.2-2' }}</span>
+                      </div>
+                    } @empty {
+                      <div class="text-center py-4 opacity-50">
+                        <p class="small m-0">No hay datos suficientes</p>
+                      </div>
+                    }
+                  </div>
+                </div>
               </div>
-              @if (Object.keys(transaccionesService.gastosPorCategoria()).length === 0) {
-                <p class="text-center text-secondary small mt-3 m-0 opacity-50">Ingresa tus primeros gastos</p>
-              }
             </div>
           </div>
         </div>
 
         <!-- Transactions Section -->
-        <div class="d-flex justify-content-between align-items-center mb-3 px-1">
-          <h6 class="m-0 fw-bold text-dark text-uppercase tracking-wider small">Movimientos Recientes</h6>
-          <button routerLink="/nueva-transaccion" class="btn btn-primary btn-sm px-3 rounded-pill fw-bold d-none d-md-block shadow-sm">
-             <i class="bi bi-plus-lg me-1"></i> Nuevo
+        <div class="d-flex justify-content-between align-items-center mb-4 px-1">
+          <div>
+            <h4 class="m-0 fw-bold">Actividad Reciente</h4>
+            <p class="text-muted small m-0">Tus últimos movimientos financieros</p>
+          </div>
+          <button routerLink="/nueva-transaccion" class="btn btn-primary px-4 shadow-sm d-none d-md-block">
+             <i class="bi bi-plus-lg me-2"></i> Nueva Transacción
           </button>
         </div>
 
         <!-- Table View (Desktop) -->
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden d-none d-md-block">
+        <div class="card border-0 premium-shadow rounded-5 overflow-hidden d-none d-md-block p-0">
           <div class="table-responsive">
-            <table class="table table-hover m-0">
-              <thead class="bg-light">
-                <tr>
-                  <th class="ps-4 py-3 border-0 text-secondary small text-uppercase">Fecha</th>
-                  <th class="py-3 border-0 text-secondary small text-uppercase">Descripción</th>
-                  <th class="py-3 border-0 text-secondary small text-uppercase text-end">Monto</th>
-                  <th class="pe-4 py-3 border-0 text-secondary small text-uppercase text-center">Acciones</th>
+            <table class="table m-0">
+              <thead>
+                <tr class="bg-light bg-opacity-50">
+                  <th class="ps-4 py-4 border-0 text-muted small text-uppercase tracking-wider fw-bold">Concepto</th>
+                  <th class="py-4 border-0 text-muted small text-uppercase tracking-wider fw-bold">Categoría</th>
+                  <th class="py-4 border-0 text-muted small text-uppercase tracking-wider fw-bold">Fecha</th>
+                  <th class="py-4 border-0 text-muted small text-uppercase tracking-wider fw-bold text-end">Monto</th>
+                  <th class="pe-4 py-4 border-0 text-muted small text-uppercase tracking-wider fw-bold text-center"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="border-top-0">
                 @for (t of transaccionesService.transacciones(); track t.id) {
-                  <tr [class]="t.tipo_movimiento === 'INGRESO' ? 'income-row' : 'expense-row'" class="align-middle">
-                    <td class="ps-4 py-3 small text-secondary">{{ t.fecha | date:'dd/MM/yy' }}</td>
-                    <td class="py-3 fw-semibold">
-                       <span class="d-block">{{ t.descripcion }}</span>
-                       <span class="text-secondary fw-normal" style="font-size: 11px;">{{ t.categoria_nombre }}</span>
+                  <tr class="align-middle hover-lift-row">
+                    <td class="ps-4 py-4">
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-4 p-2 d-flex align-items-center justify-content-center" 
+                             [class.bg-success-light]="t.tipo_movimiento === 'INGRESO'"
+                             [class.bg-danger-light]="t.tipo_movimiento === 'GASTO'"
+                             style="width: 44px; height: 44px;">
+                          <i [class]="t.tipo_movimiento === 'INGRESO' ? 'bi bi-arrow-up-right text-success' : 'bi bi-arrow-down-left text-danger'" class="fs-5"></i>
+                        </div>
+                        <span class="fw-bold">{{ t.descripcion }}</span>
+                      </div>
                     </td>
-                    <td class="py-3 text-end amount fw-bold" [class.income-amount]="t.tipo_movimiento === 'INGRESO'" [class.expense-amount]="t.tipo_movimiento === 'GASTO'">
+                    <td class="py-4">
+                      <span class="badge bg-light text-muted border px-3 py-2 rounded-pill fw-medium">{{ t.categoria_nombre }}</span>
+                    </td>
+                    <td class="py-4 text-muted small fw-medium">{{ t.fecha | date:'dd MMM, yyyy' }}</td>
+                    <td class="py-4 text-end amount fw-extrabold fs-5" [class.text-success]="t.tipo_movimiento === 'INGRESO'" [class.text-danger]="t.tipo_movimiento === 'GASTO'">
                       {{ t.tipo_movimiento === 'INGRESO' ? '+' : '-' }} S/ {{ t.monto | number:'1.2-2' }}
                     </td>
-                    <td class="pe-4 py-3 text-center">
-                      <div class="d-flex justify-content-center gap-1">
-                        <button (click)="onEdit(t)" class="btn btn-sm btn-light rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#editModal">
-                          <i class="bi bi-pencil-fill text-secondary"></i>
+                    <td class="pe-4 py-4 text-center">
+                      <div class="d-flex justify-content-center gap-2">
+                        <button (click)="onEdit(t)" class="btn btn-light btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#editModal">
+                          <i class="bi bi-pencil"></i>
                         </button>
-                        <button (click)="onDelete(t)" class="btn btn-sm btn-light rounded-circle p-2">
-                          <i class="bi bi-trash-fill text-danger"></i>
+                        <button (click)="onDelete(t)" class="btn btn-light btn-sm rounded-3 text-danger">
+                          <i class="bi bi-trash"></i>
                         </button>
                       </div>
                     </td>
@@ -130,66 +179,65 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
         <!-- Card View (Mobile) -->
         <div class="d-md-none">
           @for (t of transaccionesService.transacciones(); track t.id) {
-            <div class="card border-0 shadow-sm rounded-4 mb-3 p-3 overflow-hidden position-relative"
-                 [class.income-row]="t.tipo_movimiento === 'INGRESO'" 
-                 [class.expense-row]="t.tipo_movimiento === 'GASTO'">
+            <div class="card border-0 premium-shadow rounded-4 mb-3 p-3 overflow-hidden position-relative">
               <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-3">
-                  <div class="rounded-3 p-2 bg-light d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                  <div class="rounded-4 p-2 d-flex align-items-center justify-content-center" 
+                       [class.bg-success-light]="t.tipo_movimiento === 'INGRESO'"
+                       [class.bg-danger-light]="t.tipo_movimiento === 'GASTO'"
+                       style="width: 50px; height: 50px;">
                      <i [class]="t.tipo_movimiento === 'INGRESO' ? 'bi bi-arrow-up-right text-success' : 'bi bi-arrow-down-left text-danger'" class="fs-4"></i>
                   </div>
                   <div>
-                    <h6 class="fw-bold mb-0 text-dark">{{ t.descripcion }}</h6>
-                    <p class="text-secondary small m-0">{{ t.categoria_nombre }} • {{ t.fecha | date:'dd MMM' }}</p>
+                    <h6 class="fw-bold mb-0">{{ t.descripcion }}</h6>
+                    <p class="text-muted small m-0">{{ t.categoria_nombre }} • {{ t.fecha | date:'dd MMM' }}</p>
                   </div>
                 </div>
                 <div class="text-end">
-                  <h6 class="amount fw-bold m-0" [class.text-success]="t.tipo_movimiento === 'INGRESO'" [class.text-danger]="t.tipo_movimiento === 'GASTO'">
+                  <h6 class="amount fw-extrabold m-0" [class.text-success]="t.tipo_movimiento === 'INGRESO'" [class.text-danger]="t.tipo_movimiento === 'GASTO'">
                     {{ t.tipo_movimiento === 'INGRESO' ? '+' : '-' }}S/ {{ t.monto | number:'1.2-2' }}
                   </h6>
-                  <div class="mt-2 d-flex gap-2 justify-content-end">
-                    <button (click)="onEdit(t)" class="btn btn-sm btn-light rounded-pill px-2 py-0" data-bs-toggle="modal" data-bs-target="#editModal" style="font-size: 10px;">Editar</button>
-                    <button (click)="onDelete(t)" class="btn btn-sm btn-light text-danger rounded-pill px-2 py-0" style="font-size: 10px;">Borrar</button>
-                  </div>
+                  <button (click)="onEdit(t)" class="btn btn-link btn-sm p-0 text-muted text-decoration-none mt-1 small" data-bs-toggle="modal" data-bs-target="#editModal">Detalles</button>
                 </div>
               </div>
             </div>
-          } @empty {
-             <div class="text-center py-5 opacity-50">
-               <i class="bi bi-inbox display-1"></i>
-               <p class="mt-2 small fw-bold">Sin movimientos aún</p>
-             </div>
           }
         </div>
 
       </main>
 
-      <!-- Edit Modal -->
+      <!-- Edit Modal (Minimalist) -->
       <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content border-0 shadow rounded-4">
-            <div class="modal-body p-4">
-              <h5 class="fw-bold mb-4">Editar Movimiento</h5>
-              <form [formGroup]="editForm" (ngSubmit)="onSaveEdit()" class="row g-3">
+          <div class="modal-content border-0 premium-shadow rounded-5 overflow-hidden">
+            <div class="modal-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold m-0">Editar Movimiento</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form [formGroup]="editForm" (ngSubmit)="onSaveEdit()" class="row g-4">
                 <div class="col-12">
-                  <label class="form-label small fw-bold text-secondary">Monto (S/)</label>
-                  <input type="number" formControlName="monto" class="form-control form-control-lg amount fw-bold border-light bg-light">
+                  <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Monto del Movimiento</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light border-0 rounded-start-4 fw-bold text-muted">S/</span>
+                    <input type="number" formControlName="monto" class="form-control form-control-lg amount fw-bold border-0 bg-light rounded-end-4" placeholder="0.00">
+                  </div>
                 </div>
                 <div class="col-12">
-                  <label class="form-label small fw-bold text-secondary">Categoría</label>
-                  <select formControlName="categoria_id" class="form-select border-light bg-light">
+                  <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Categoría</label>
+                  <select formControlName="categoria_id" class="form-select form-select-lg border-0 bg-light rounded-4">
                     @for (cat of transaccionesService.categorias(); track cat.id) {
-                      <option [value]="cat.id">({{ cat.tipo }}) {{ cat.nombre }}</option>
+                      <option [value]="cat.id">{{ cat.nombre }} ({{ cat.tipo }})</option>
                     }
                   </select>
                 </div>
                 <div class="col-12">
-                  <label class="form-label small fw-bold text-secondary">Descripción</label>
-                  <input type="text" formControlName="descripcion" class="form-control border-light bg-light">
+                  <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Descripción o Concepto</label>
+                  <input type="text" formControlName="descripcion" class="form-control form-control-lg border-0 bg-light rounded-4" placeholder="Ej. Almuerzo corporativo">
                 </div>
-                <div class="col-12 mt-4">
-                  <button type="submit" [disabled]="editForm.invalid || loading()" class="btn btn-primary w-100 py-3 fw-bold rounded-3" data-bs-dismiss="modal">
-                    {{ loading() ? 'Guardando...' : 'Confirmar Cambios' }}
+                <div class="col-12 mt-5">
+                  <button type="submit" [disabled]="editForm.invalid || loading()" class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow">
+                    {{ loading() ? 'Procesando...' : 'Guardar Cambios' }}
                   </button>
                 </div>
               </form>
@@ -203,14 +251,34 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styles: [`
     :host { display: block; }
     .amount { font-variant-numeric: tabular-nums; }
+    .fw-extrabold { font-weight: 800; }
+    
     .balance-card {
-      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-      box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
+      background: #0F172A;
+      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25) !important;
     }
-    .balance-card h1 { color: #ffffff !important; }
-    .income-row { border-left: 5px solid var(--bs-success) !important; }
-    .expense-row { border-left: 5px solid var(--bs-danger) !important; }
-    .tracking-wider { letter-spacing: 0.05em; }
+    
+    .mesh-gradient {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.5) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.5) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.3) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.3) 0px, transparent 50%);
+      opacity: 0.6;
+      filter: blur(40px);
+    }
+
+    .bg-success-light { background-color: rgba(16, 185, 129, 0.1); }
+    .bg-danger-light { background-color: rgba(244, 63, 94, 0.1); }
+    
+    .hover-lift-row { transition: background-color 0.2s ease; }
+    .hover-lift-row:hover { background-color: #F8FAFC; }
+    
+    .hover-bg-light:hover { background-color: #F8FAFC; }
+    
+    .tracking-widest { letter-spacing: 0.15em; }
     .z-1 { z-index: 1; }
   `]
 })
@@ -219,6 +287,8 @@ export class DashboardComponent implements OnInit {
   public authService = inject(AuthService);
   public transaccionesService = inject(TransaccionesService);
   private router = inject(Router);
+
+  public today = new Date();
 
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   private chart: Chart | null = null;
@@ -345,6 +415,11 @@ export class DashboardComponent implements OnInit {
         alert('Error al eliminar.');
       }
     }
+  }
+
+  getCategoryColor(index: number): string {
+    const colors = ['#6366F1', '#10B981', '#F59E0B', '#F43F5E', '#3B82F6', '#8B5CF6'];
+    return colors[index % colors.length];
   }
 
   async onLogout() {
