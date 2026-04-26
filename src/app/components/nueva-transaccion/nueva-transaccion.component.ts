@@ -42,7 +42,7 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
                     <input
                       type="number"
                       formControlName="monto"
-                      class="form-control border-0 bg-light amount fw-extrabold rounded-end-4 fs-1 py-4"
+                      class="form-control border-0 bg-light amount fw-extrabold rounded-end-4 responsive-amount-input py-3 py-lg-4"
                       placeholder="0.00"
                     />
                   </div>
@@ -112,6 +112,10 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
     .amount { font-variant-numeric: tabular-nums; }
     .btn-white { background: white; border: 1px solid var(--border-subtle); }
     .amount::placeholder { color: #E2E8F0; }
+
+    .responsive-amount-input {
+      font-size: clamp(1.5rem, 8vw, 3.5rem);
+    }
     
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,

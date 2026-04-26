@@ -20,13 +20,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
       <main class="container-fluid px-md-5 py-4">
         
         <!-- Welcome Header (Mobile & Desktop) -->
-        <div class="d-flex justify-content-between align-items-end mb-5 px-1">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 mb-md-5 px-1 gap-3">
           <div>
-            <p class="text-primary fw-bold small text-uppercase tracking-widest mb-1">Resumen General</p>
+            <p class="text-primary fw-bold small text-uppercase tracking-widest mb-1" style="font-size: 0.7rem;">Resumen General</p>
             @if (authService.user(); as user) {
-              <h2 class="fw-bold m-0 h1">Hola, {{ user.email.split('@')[0] }} 👋</h2>
+              <h2 class="fw-bold m-0 h2 h1-md">Hola, {{ user.email.split('@')[0] }} 👋</h2>
             } @else {
-              <h2 class="fw-bold m-0 h1">Hola, Invitado 👋</h2>
+              <h2 class="fw-bold m-0 h2 h1-md">Hola, Invitado 👋</h2>
             }
           </div>
           <div class="d-none d-md-flex gap-3">
@@ -45,29 +45,29 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
               
               <div class="position-relative z-1 d-flex flex-column h-100">
                 <div class="d-flex justify-content-between align-items-start mb-4">
-                  <div>
-                    <p class="text-white opacity-75 small fw-bold text-uppercase tracking-wider mb-0">Saldo Disponible</p>
-                    <h1 class="amount mb-0 display-4 fw-extrabold text-white">
+                  <div class="w-100 me-2">
+                    <p class="text-white opacity-75 small fw-bold text-uppercase tracking-wider mb-0" style="font-size: 0.65rem;">Saldo Disponible</p>
+                    <h1 class="amount mb-0 fw-extrabold text-white text-truncate responsive-amount">
                       S/ {{ transaccionesService.saldoTotal() | number:'1.2-2' }}
                     </h1>
                   </div>
-                  <div class="bg-white rounded-3 p-1 shadow-sm" style="width: 44px; height: 44px; overflow: hidden;">
+                  <div class="bg-white rounded-3 p-1 shadow-sm flex-shrink-0" style="width: 44px; height: 44px; overflow: hidden;">
                     <img src="logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
                   </div>
                 </div>
                 
                 <div class="mt-auto">
-                  <div class="row g-3">
+                  <div class="row g-2 g-md-3">
                     <div class="col-6">
-                      <div class="bg-white bg-opacity-10 rounded-4 p-3 border border-white border-opacity-10">
-                        <span class="text-white opacity-75 d-block small mb-1 fw-bold">Ingresos</span>
-                        <span class="fw-bold amount fs-5 text-white">S/ {{ transaccionesService.totalIngresos() | number:'1.2-2' }}</span>
+                      <div class="bg-white bg-opacity-10 rounded-4 p-2 p-md-3 border border-white border-opacity-10">
+                        <span class="text-white opacity-75 d-block small mb-1 fw-bold" style="font-size: 0.6rem;">Ingresos</span>
+                        <span class="fw-bold amount fs-6 fs-md-5 text-white">S/ {{ transaccionesService.totalIngresos() | number:'1.2-2' }}</span>
                       </div>
                     </div>
                     <div class="col-6">
-                      <div class="bg-white bg-opacity-10 rounded-4 p-3 border border-white border-opacity-10">
-                        <span class="text-white opacity-75 d-block small mb-1 fw-bold">Gastos</span>
-                        <span class="fw-bold amount fs-5 text-white">S/ {{ transaccionesService.totalGastos() | number:'1.2-2' }}</span>
+                      <div class="bg-white bg-opacity-10 rounded-4 p-2 p-md-3 border border-white border-opacity-10">
+                        <span class="text-white opacity-75 d-block small mb-1 fw-bold" style="font-size: 0.6rem;">Gastos</span>
+                        <span class="fw-bold amount fs-6 fs-md-5 text-white">S/ {{ transaccionesService.totalGastos() | number:'1.2-2' }}</span>
                       </div>
                     </div>
                   </div>
@@ -96,11 +96,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
                   <div class="d-flex flex-column gap-2">
                     @for (label of Object.keys(transaccionesService.gastosPorCategoria()); track label) {
                       <div class="d-flex justify-content-between align-items-center p-2 rounded-3 hover-bg-light">
-                        <div class="d-flex align-items-center gap-2">
-                          <div class="rounded-circle" [style.background-color]="getCategoryColor($index)" style="width: 8px; height: 8px;"></div>
-                          <span class="small fw-semibold text-muted">{{ label }}</span>
+                        <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
+                          <div class="rounded-circle flex-shrink-0" [style.background-color]="getCategoryColor($index)" style="width: 8px; height: 8px;"></div>
+                          <span class="small fw-semibold text-muted text-truncate">{{ label }}</span>
                         </div>
-                        <span class="small fw-bold">S/ {{ transaccionesService.gastosPorCategoria()[label] | number:'1.2-2' }}</span>
+                        <span class="small fw-bold flex-shrink-0">S/ {{ transaccionesService.gastosPorCategoria()[label] | number:'1.2-2' }}</span>
                       </div>
                     } @empty {
                       <div class="text-center py-4 opacity-50">
@@ -149,7 +149,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
                              style="width: 44px; height: 44px;">
                           <i [class]="t.tipo_movimiento === 'INGRESO' ? 'bi bi-arrow-up-right text-success' : 'bi bi-arrow-down-left text-danger'" class="fs-5"></i>
                         </div>
-                        <span class="fw-bold">{{ t.descripcion }}</span>
+                        <span class="fw-bold text-truncate" style="max-width: 200px;">{{ t.descripcion }}</span>
                       </div>
                     </td>
                     <td class="py-4">
@@ -180,20 +180,20 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
         <div class="d-md-none">
           @for (t of transaccionesService.transacciones(); track t.id) {
             <div class="card border-0 premium-shadow rounded-4 mb-3 p-3 overflow-hidden position-relative">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-3">
-                  <div class="rounded-4 p-2 d-flex align-items-center justify-content-center" 
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                <div class="d-flex align-items-center gap-3 overflow-hidden">
+                  <div class="rounded-4 p-2 d-flex align-items-center justify-content-center flex-shrink-0" 
                        [class.bg-success-light]="t.tipo_movimiento === 'INGRESO'"
                        [class.bg-danger-light]="t.tipo_movimiento === 'GASTO'"
-                       style="width: 50px; height: 50px;">
-                     <i [class]="t.tipo_movimiento === 'INGRESO' ? 'bi bi-arrow-up-right text-success' : 'bi bi-arrow-down-left text-danger'" class="fs-4"></i>
+                       style="width: 48px; height: 48px;">
+                     <i [class]="t.tipo_movimiento === 'INGRESO' ? 'bi bi-arrow-up-right text-success' : 'bi bi-arrow-down-left text-danger'" class="fs-5"></i>
                   </div>
-                  <div>
-                    <h6 class="fw-bold mb-0">{{ t.descripcion }}</h6>
+                  <div class="overflow-hidden">
+                    <h6 class="fw-bold mb-0 text-truncate">{{ t.descripcion }}</h6>
                     <p class="text-muted small m-0">{{ t.categoria_nombre }} • {{ t.fecha | date:'dd MMM' }}</p>
                   </div>
                 </div>
-                <div class="text-end">
+                <div class="text-end flex-shrink-0">
                   <h6 class="amount fw-extrabold m-0" [class.text-success]="t.tipo_movimiento === 'INGRESO'" [class.text-danger]="t.tipo_movimiento === 'GASTO'">
                     {{ t.tipo_movimiento === 'INGRESO' ? '+' : '-' }}S/ {{ t.monto | number:'1.2-2' }}
                   </h6>
@@ -208,9 +208,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
       <!-- Edit Modal (Minimalist) -->
       <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content border-0 premium-shadow rounded-5 overflow-hidden">
-            <div class="modal-body p-5">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+          <div class="modal-content border-0 premium-shadow rounded-5-md overflow-hidden">
+            <div class="modal-body p-4 p-md-5">
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="fw-bold m-0">Editar Movimiento</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -256,8 +256,19 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     .balance-card {
       background: #0F172A;
       box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25) !important;
+      min-height: 220px;
     }
     
+    .responsive-amount {
+      font-size: clamp(1.5rem, 8vw, 3rem);
+      line-height: 1.2;
+    }
+
+    @media (min-width: 768px) {
+      .h1-md { font-size: 2.5rem; }
+      .rounded-5-md { border-radius: 2rem; }
+    }
+
     .mesh-gradient {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -280,6 +291,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     
     .tracking-widest { letter-spacing: 0.15em; }
     .z-1 { z-index: 1; }
+
+    @media (max-width: 767.98px) {
+      .card { padding: 1.25rem !important; }
+    }
   `]
 })
 export class DashboardComponent implements OnInit {
