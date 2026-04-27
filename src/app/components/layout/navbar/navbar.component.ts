@@ -63,9 +63,9 @@ import { AuthService } from '../../../auth/auth.service';
       
       <div style="width: 50px;"></div>
 
-      <a routerLink="/perfil" class="nav-mobile-item opacity-50">
-        <i class="bi bi-person fs-4"></i>
-        <span>Perfil</span>
+      <a (click)="onLogout()" class="nav-mobile-item text-danger">
+        <i class="bi bi-box-arrow-right fs-4"></i>
+        <span>Salir</span>
       </a>
     </nav>
 

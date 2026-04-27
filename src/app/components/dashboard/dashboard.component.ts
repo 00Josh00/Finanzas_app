@@ -29,10 +29,15 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
               <h2 class="fw-bold m-0 h2 h1-md">Hola, Invitado 👋</h2>
             }
           </div>
-          <div class="d-none d-md-flex gap-3">
-             <div class="glass-card rounded-3 p-2 px-3 d-flex align-items-center gap-2">
-                <i class="bi bi-calendar3 text-primary"></i>
-                <span class="small fw-bold text-muted">{{ today | date:'dd MMMM, yyyy' }}</span>
+          <div class="d-flex gap-2">
+             <button (click)="onLogout()" class="btn btn-light rounded-3 d-md-none border-0 premium-shadow">
+                <i class="bi bi-box-arrow-right text-danger"></i>
+             </button>
+             <div class="d-none d-md-flex gap-3">
+                <div class="glass-card rounded-3 p-2 px-3 d-flex align-items-center gap-2">
+                   <i class="bi bi-calendar3 text-primary"></i>
+                   <span class="small fw-bold text-muted">{{ today | date:'dd MMMM, yyyy' }}</span>
+                </div>
              </div>
           </div>
         </div>
